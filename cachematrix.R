@@ -5,7 +5,7 @@
 ## The objective is to write two functions that 
 ## use R lexical scoping to avoid the matrix inverse
 ## calculation by returning a cached result whenever 
-## is possible. 
+## it is possible. 
 
 ## This function receives a matrix and returns
 ## a list with setter and getter functions for
@@ -13,7 +13,7 @@
 
 makeCacheMatrix <- function( x = matrix() ) {
     invx <- NULL
-    #When setting a new matrix, inv es reset
+    #When setting a new matrix inverse is reset
     set <- function( y ) {
         x <<- y
         invx <<- NULL
@@ -38,12 +38,12 @@ cacheSolve <- function( x, ... ) {
     invx <- x$getinv()
     #If cached inverse exists
     if( !is.null( invx ) ) {
-        message("getting cashed inverse")
+        message("getting cached inverse")
         return( invx )
     }
     #Calculate inverse if it doesn't exist
     data <- x$get()
     invx <- solve( data, ... ) #solve calculates matrix inverse
-    x$setinv( invx ) #cash new inverse
+    x$setinv( invx ) #new inverse
     invx
 }
