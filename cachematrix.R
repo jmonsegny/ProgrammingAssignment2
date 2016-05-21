@@ -11,8 +11,21 @@
 ## a list with setter and getter functions for
 ## the matrix and its inverse.
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function( x = matrix() ) {
+    invx <- NULL
+    #When setting a new matrix, inv es reset
+    set <- function( y ) {
+        x <<- y
+        invx <<- NULL
+    }
+    get <- function() x
+    setinv <- function( inv ) invx <<- inv
+    getinv <- function() invx
+    #List with setter and getter functions
+    list( set = set, get = get, 
+          setinv = setinv,
+          getinv = getinv )
+     
 }
 
 
@@ -21,6 +34,16 @@ makeCacheMatrix <- function(x = matrix()) {
 ## the inverse of the matrix only is it was
 ## not previously calculated.
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function( x, ... ) {
+    invx <- x$getinv()
+    #If cached inverse exists
+    if( !is.null( invx ) ) {
+        message("getting cashed inverse")
+        return( invx )
+    }
+    #Calculate inverse if it doesn't exist
+    data <- x$get()
+    invx <- solve( data, ... ) #solve calculates matrix inverse
+    x$setinv( invx ) #cash new inverse
+    invx
 }
